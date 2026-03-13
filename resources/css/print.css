@@ -1,0 +1,398 @@
+/* ============================================================
+   PPKD HOTEL — Print Stylesheet
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+    --gold:    #C9A84C;
+    --charcoal:#1C1C1E;
+    --text:    #2D2D2F;
+    --light:   #F5F5F5;
+    --border:  #D5C9B1;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: var(--text);
+    background: white;
+    line-height: 1.5;
+}
+
+/* === PRINT PAGE WRAPPER === */
+.print-page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 16mm 16mm 12mm;
+    background: white;
+}
+
+/* === HEADER === */
+.print-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10mm;
+    padding-bottom: 6mm;
+    border-bottom: 2px solid var(--gold);
+}
+
+.print-header-center {
+    text-align: center;
+    flex: 1;
+}
+
+.print-logo {
+    width: 60px;
+    height: 60px;
+}
+
+.print-hotel-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--charcoal);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.print-doc-title {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 3px;
+    font-weight: 500;
+}
+
+.print-doc-subtitle {
+    font-size: 9px;
+    color: #888;
+    letter-spacing: 1px;
+    font-style: italic;
+    margin-top: 2px;
+}
+
+.print-booking-no {
+    text-align: right;
+    font-size: 10px;
+    color: var(--charcoal);
+}
+
+.print-booking-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+}
+
+.print-booking-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-top: 2px;
+}
+
+/* === INFO BAND === */
+.info-band {
+    display: flex;
+    gap: 0;
+    margin-bottom: 6mm;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.info-band-item {
+    flex: 1;
+    padding: 8px 12px;
+    border-right: 1px solid var(--border);
+}
+
+.info-band-item:last-child { border-right: none; }
+
+.info-band-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 3px;
+}
+
+.info-band-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--charcoal);
+}
+
+/* === SECTION === */
+.print-section {
+    margin-bottom: 5mm;
+}
+
+.print-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--charcoal);
+    padding: 5px 10px;
+    background: #F9F6EF;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 3mm;
+    letter-spacing: 0.5px;
+}
+
+/* === FORM TABLE === */
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-table td {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+}
+
+.form-table .label-cell {
+    width: 30%;
+    background: #FAFAF8;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.form-table .value-cell {
+    font-size: 11px;
+    color: var(--charcoal);
+    font-weight: 500;
+}
+
+.form-table .value-cell.highlight {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* === NOTICE BOX === */
+.notice-box {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 4mm 0;
+    background: #FFFDF8;
+    font-size: 9px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.notice-box strong {
+    font-size: 10px;
+    color: var(--charcoal);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.notice-list {
+    padding-left: 14px;
+}
+
+.notice-list li {
+    margin-bottom: 2px;
+}
+
+/* === CANCELLATION POLICY === */
+.cancellation-policy {
+    margin-top: 5mm;
+    padding: 8px 12px;
+    background: var(--light);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+
+.cancellation-policy h4 {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    margin-bottom: 5px;
+}
+
+.cancellation-policy ol {
+    padding-left: 16px;
+    font-size: 9px;
+    color: #555;
+}
+
+.cancellation-policy li {
+    margin-bottom: 3px;
+}
+
+/* === SIGNATURE SECTION === */
+.signature-row {
+    display: flex;
+    gap: 4mm;
+    margin-top: 8mm;
+}
+
+.signature-box {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    min-height: 60px;
+    position: relative;
+}
+
+.signature-label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.signature-name-line {
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    padding-top: 4px;
+    font-size: 8px;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+/* === CHECKOUT INFO === */
+.checkout-banner {
+    background: var(--charcoal);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 4px;
+    text-align: center;
+    margin: 4mm 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.checkout-banner span {
+    color: var(--gold);
+    font-size: 14px;
+}
+
+/* === DEPOSIT BOX === */
+.deposit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 3mm;
+}
+
+.deposit-table td, .deposit-table th {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    font-size: 9px;
+}
+
+.deposit-table th {
+    background: #FAFAF8;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888;
+    text-align: left;
+}
+
+/* === FOOTER === */
+.print-footer {
+    margin-top: 8mm;
+    padding-top: 4mm;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.print-footer-text {
+    font-size: 8px;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+.gold-ornament {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.gold-ornament::before,
+.gold-ornament::after {
+    content: '◆';
+    font-size: 6px;
+}
+
+/* === SCREEN PREVIEW === */
+@media screen {
+    body { background: #E8E2D9; }
+    .print-page {
+        box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+        margin: 20px auto;
+    }
+    .print-actions {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 999;
+    }
+    .print-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: #C9A84C;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        text-decoration: none;
+        text-transform: uppercase;
+        box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+        transition: all 0.2s;
+    }
+    .print-btn:hover { transform: translateY(-2px); }
+    .print-btn-back {
+        background: #1C1C1E;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .print-btn svg { width: 14px; height: 14px; }
+}
+
+@media print {
+    .print-actions { display: none !important; }
+    body { background: white; }
+    .print-page { margin: 0; padding: 12mm; box-shadow: none; }
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+    }
+}
