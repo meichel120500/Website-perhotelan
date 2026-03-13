@@ -72,7 +72,33 @@
         </nav>
 
         <div class="sidebar-footer">
-            <p class="sidebar-footer-text">© {{ date('Y') }} PPKD Jakarta Pusat</p>
+            {{-- User info --}}
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px; padding:10px 12px; background:rgba(201,168,76,0.08); border-radius:6px; border:1px solid rgba(201,168,76,0.15);">
+                <div style="width:32px; height:32px; background:linear-gradient(135deg,#C9A84C,#9A7B35); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" style="width:16px;height:16px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                </div>
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ Auth::user()->name ?? '' }}</div>
+                    <div style="font-size:9px; color:var(--gold); letter-spacing:1px; text-transform:uppercase; margin-top:1px;">{{ Auth::user()->role_label ?? 'Resepsionis' }}</div>
+                </div>
+            </div>
+
+            {{-- Logout --}}
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" style="width:100%; display:flex; align-items:center; gap:8px; padding:9px 12px; background:transparent; border:1px solid rgba(220,38,38,0.3); border-radius:6px; color:rgba(220,38,38,0.7); font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; font-family:var(--font-sans); transition:all 0.2s;"
+                    onmouseover="this.style.background='rgba(220,38,38,0.1)'; this.style.borderColor='rgba(220,38,38,0.5)'; this.style.color='#DC2626';"
+                    onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(220,38,38,0.3)'; this.style.color='rgba(220,38,38,0.7)';">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    Keluar
+                </button>
+            </form>
+
+            <p class="sidebar-footer-text" style="margin-top:12px;">© {{ date('Y') }} PPKD Jakarta Pusat</p>
         </div>
     </aside>
 

@@ -370,7 +370,8 @@
         <div class="drow">
             <span class="lbl">Or by Bank Transfer to</span>
             <span class="colon">:</span>
-            <span class="val">{{ $reservation->mandiri_account ?? '' }}</span>
+            {{-- Nomor rekening tetap perusahaan PPKD Hotel (tidak bisa diubah) --}}
+            <span class="val" style="font-weight:600;">1320089175400 — a/n PPKD Jakarta Pusat</span>
         </div>
         <div class="drow">
             <span class="lbl">Expired date/month/year</span>
