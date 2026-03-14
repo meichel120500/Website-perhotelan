@@ -520,5 +520,26 @@
         </div>
     </div>
 
+    <script>
+    // FUNGSI NOTIFIKASI OTOMATIS HILANG (2 DETIK)
+    document.addEventListener("DOMContentLoaded", function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        alerts.forEach(function(alert) {
+            // Tunggu 2 detik (2000ms)
+            setTimeout(function() {
+                // Efek transisi memudar
+                alert.style.transition = "opacity 0.5s ease";
+                alert.style.opacity = "0";
+                
+                // Hapus elemen dari DOM setelah animasi selesai
+                setTimeout(function() {
+                    alert.remove();
+                }, 500);
+            }, 2000);
+        });
+    });
+</script>
+
 </body>
 </html>

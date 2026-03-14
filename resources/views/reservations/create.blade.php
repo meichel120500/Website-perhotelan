@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div style="text-align:right; font-size:11px; color:var(--text-soft);">
-                <div>Check-In: <strong>14:00</strong></div>
+                <div>Check-In: <strong>12:00</strong></div>
                 <div>Check-Out: <strong>12:00</strong></div>
             </div>
         </div>
@@ -46,13 +46,13 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="room_type">Tipe Kamar <span class="required">*</span></label>
-                    <select id="room_type" name="room_type" class="form-control">
+                    <select id="room_type" name="room_type" class="form-control" onchange="autoFillRate(this.value)">
                         <option value="">— Pilih Tipe —</option>
-                        <option value="Standard" {{ old('room_type')=='Standard'?'selected':'' }}>Standard</option>
-                        <option value="Deluxe" {{ old('room_type')=='Deluxe'?'selected':'' }}>Deluxe</option>
-                        <option value="Suite" {{ old('room_type')=='Suite'?'selected':'' }}>Suite</option>
-                        <option value="Executive" {{ old('room_type')=='Executive'?'selected':'' }}>Executive</option>
-                        <option value="Presidential" {{ old('room_type')=='Presidential'?'selected':'' }}>Presidential</option>
+                        <option value="Standard"     data-price="500000"  {{ old('room_type')=='Standard'?'selected':'' }}>Standard </option>
+                        <option value="Deluxe"       data-price="1500000" {{ old('room_type')=='Deluxe'?'selected':'' }}>Deluxe</option>
+                        <option value="Suite"        data-price="4000000" {{ old('room_type')=='Suite'?'selected':'' }}>Suite</option>
+                        <option value="Executive"    data-price="5000000" {{ old('room_type')=='Executive'?'selected':'' }}>Executive</option>
+                        <option value="Presidential" data-price="7000000" {{ old('room_type')=='Presidential'?'selected':'' }}>Presidential</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -70,8 +70,9 @@
                 <div class="form-group">
                     <label class="form-label" for="room_rate_net">Tarif Kamar (Rp)</label>
                     <input type="number" id="room_rate_net" name="room_rate_net"
-                           class="form-control" placeholder="0"
-                           value="{{ old('room_rate_net') }}">
+                           class="form-control" placeholder="Otomatis terisi saat pilih tipe kamar"
+                           value="{{ old('room_rate_net') }}"
+                           style="background:#FFFDF8; border-color:rgba(201,168,76,0.4);">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="receptionist">Resepsionis</label>
@@ -112,13 +113,20 @@
                 <div class="form-group">
                     <label class="form-label" for="arrival_time">Waktu Kedatangan</label>
                     <input type="time" id="arrival_time" name="arrival_time"
-                           class="form-control" value="{{ old('arrival_time', '14:00') }}">
+                           class="form-control" value="{{ old('arrival_time', '12:00') }}">
+                           <span class="form-hint">Default check-in: 12:00</span>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="departure_date">Tanggal Keberangkatan <span class="required">*</span></label>
                     <input type="date" id="departure_date" name="departure_date"
                            class="form-control"
                            value="{{ old('departure_date') }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="departure_time">Waktu Keberangkatan</label>
+                    <input type="time" id="departure_time" name="departure_time"
+                           class="form-control" value="{{ old('departure_time', '12:00') }}">
+                    <span class="form-hint">Default check-out: 12:00</span>
                 </div>
             </div>
         </div>
@@ -445,4 +453,41 @@
     </div>
 
 </form>
+@push('scripts')
+<script>
+    // Auto-fill tarif kamar berdasarkan tipe kamar
+    const roomPrices = {
+        'Standard':     500000,
+        'Deluxe':       1500000,
+        'Suite':        4000000,
+        'Executive':    5000000,
+        'Presidential': 7000000,
+    };
+
+    function autoFillRate(roomType) {
+        const rateField = document.getElementById('room_rate_net');
+        if (roomPrices[roomType]) {
+            rateField.value = roomPrices[roomType];
+            // Animasi highlight
+            rateField.style.transition = 'all 0.3s';
+            rateField.style.borderColor = '#C9A84C';
+            rateField.style.boxShadow = '0 0 0 3px rgba(201,168,76,0.25)';
+            setTimeout(() => {
+                rateField.style.boxShadow = '';
+            }, 1500);
+        } else {
+            rateField.value = '';
+        }
+    }
+
+    // Jalankan saat halaman load jika ada old value
+    document.addEventListener('DOMContentLoaded', function() {
+        const roomTypeSelect = document.getElementById('room_type');
+        if (roomTypeSelect && roomTypeSelect.value) {
+            autoFillRate(roomTypeSelect.value);
+        }
+    });
+</script>
+@endpush
+
 @endsection

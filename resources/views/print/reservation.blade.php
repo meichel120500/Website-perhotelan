@@ -11,7 +11,7 @@
 
         body {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12px;
+            font-size: 14px;
             color: #000;
             background: white;
         }
@@ -30,14 +30,14 @@
             margin-bottom: 5mm;
         }
         .rc-logo {
-            width: 72px;
-            height: 72px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             display: block;
             margin: 0 auto 5px;
         }
         .rc-hotel-name {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -45,7 +45,7 @@
 
         /* TITLE */
         .rc-doc-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: normal;
             margin: 5mm 0 1.5mm;
         }
@@ -59,7 +59,7 @@
             display: flex;
             align-items: baseline;
             margin: 4mm 0 5mm;
-            font-size: 12px;
+            font-size: 14px;
             gap: 6px;
         }
         .to-row .lbl { min-width: 30px; }
@@ -84,11 +84,11 @@
         .frow {
             display: flex;
             align-items: baseline;
-            margin-bottom: 2.5px;
-            font-size: 11.5px;
+            margin-bottom: 3px;
+            font-size: 13px;
             gap: 3px;
         }
-        .frow .lbl      { min-width: 115px; flex-shrink: 0; }
+        .frow .lbl      { min-width: 125px; flex-shrink: 0; }
         .frow .lbl-sm   { min-width: 45px;  flex-shrink: 0; }
         .frow .colon    { flex-shrink: 0; margin-right: 4px; }
         .frow .val      { color: #000; }
@@ -97,30 +97,30 @@
         .drow {
             display: flex;
             align-items: baseline;
-            margin-bottom: 2.5px;
-            font-size: 11.5px;
+            margin-bottom: 3px;
+            font-size: 13px;
             gap: 3px;
         }
-        .drow .lbl   { min-width: 148px; flex-shrink: 0; }
+        .drow .lbl   { min-width: 165px; flex-shrink: 0; }
         .drow .colon { flex-shrink: 0; margin-right: 4px; }
         .drow .val   { color: #000; }
 
         /* NOTICE */
         .notice {
-            font-size: 10.5px;
-            line-height: 1.55;
+            font-size: 12px;
+            line-height: 1.6;
             margin: 2.5mm 0;
         }
 
         /* PAYMENT SECTION */
-        .pay-title { font-size: 11.5px; margin-bottom: 1.5mm; }
+        .pay-title { font-size: 13px; margin-bottom: 1.5mm; }
 
         /* CANCELLATION */
-        .cancel-title { font-size: 11px; font-weight: bold; margin-bottom: 1.5mm; }
+        .cancel-title { font-size: 13px; font-weight: bold; margin-bottom: 1.5mm; }
         .cancel-list  { padding-left: 20px; }
         .cancel-list li {
-            font-size: 10.5px;
-            line-height: 1.55;
+            font-size: 12px;
+            line-height: 1.6;
             margin-bottom: 1.5px;
         }
 
@@ -278,7 +278,14 @@
         <div class="drow">
             <span class="lbl">Departure Date</span>
             <span class="colon">:</span>
-            <span class="val">{{ \Carbon\Carbon::parse($reservation->departure_date)->format('d F Y') }}</span>
+            <span class="val">
+                {{ \Carbon\Carbon::parse($reservation->departure_date)->format('d F Y') }}
+                @if($reservation->status === 'checked_out' && $reservation->departure_time)
+                    , Pukul {{ $reservation->departure_time }}
+                @elseif($reservation->departure_time)
+                    , {{ $reservation->departure_time }}
+                @endif
+            </span>
         </div>
         <div class="drow">
             <span class="lbl">Total Night</span>
@@ -311,79 +318,121 @@
         Please settle your outstanding to or account:
     </div>
 
-    {{-- ====== BANK TRANSFER ====== --}}
-    <div style="margin: 2mm 0 3mm;">
-        <div class="pay-title">Bank Transfer</div>
-        <div class="drow">
-            <span class="lbl">Mandiri Account</span>
-            <span class="colon">:</span>
-            {{-- Tampilkan data apapun yang terisi --}}
-            <span class="val">
-                @if(!empty($reservation->mandiri_account))
-                    {{ $reservation->mandiri_account }}
-                @elseif(!empty($reservation->card_number))
-                    (Pembayaran via Kartu Kredit)
-                @else
-                    &nbsp;
-                @endif
-            </span>
-        </div>
-        <div class="drow">
-            <span class="lbl">Mandiri Name Account</span>
-            <span class="colon">:</span>
-            <span class="val">
-                @if(!empty($reservation->mandiri_name_account))
-                    {{ $reservation->mandiri_name_account }}
-                @elseif(!empty($reservation->card_holder_name))
-                    {{ $reservation->card_holder_name }}
-                @else
-                    &nbsp;
-                @endif
-            </span>
-        </div>
-    </div>
+    {{-- ====== KONDISI BERDASARKAN METODE PEMBAYARAN ====== --}}
+    @if($reservation->payment_method === 'bank_transfer')
 
-    <hr class="solid">
+        {{-- === BANK TRANSFER === --}}
+        <div style="margin: 2mm 0 3mm;">
+            <div class="pay-title">Bank Transfer</div>
+            <div class="drow">
+                <span class="lbl">Mandiri Account</span>
+                <span class="colon">:</span>
+                <span class="val">{{ $reservation->mandiri_account ?? '&nbsp;' }}</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Mandiri Name Account</span>
+                <span class="colon">:</span>
+                <span class="val">{{ $reservation->mandiri_name_account ?? '&nbsp;' }}</span>
+            </div>
+        </div>
 
-    {{-- ====== CREDIT CARD ====== --}}
-    <div style="margin: 2mm 0 3mm;">
-        <div class="pay-title">Reservation guaranteed by the following credit card:</div>
-        <div class="drow">
-            <span class="lbl">Card Number</span>
-            <span class="colon">:</span>
-            <span class="val">
-                @if($reservation->card_number)
-                    {{ str_repeat('*', max(0, strlen($reservation->card_number)-4)) . substr($reservation->card_number, -4) }}
-                @endif
-            </span>
+        <hr class="solid">
+
+        {{-- Credit card section kosong saat bank transfer --}}
+        <div style="margin: 2mm 0 3mm;">
+            <div class="pay-title">Reservation guaranteed by the following credit card:</div>
+            <div class="drow">
+                <span class="lbl">Card Number</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Card holder name</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Card Type</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Or by Bank Transfer to</span>
+                <span class="colon">:</span>
+                <span class="val" style="font-weight:600;">1320089175400 — a/n PPKD Jakarta Pusat</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Expired date/month/year</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Card holder signature</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
         </div>
-        <div class="drow">
-            <span class="lbl">Card holder name</span>
-            <span class="colon">:</span>
-            <span class="val">{{ $reservation->card_holder_name ?? '' }}</span>
+
+    @else
+
+        {{-- === KREDIT CARD === --}}
+        <div style="margin: 2mm 0 3mm;">
+            <div class="pay-title">Bank Transfer</div>
+            <div class="drow">
+                <span class="lbl">Mandiri Account</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Mandiri Name Account</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
         </div>
-        <div class="drow">
-            <span class="lbl">Card Type</span>
-            <span class="colon">:</span>
-            <span class="val">{{ $reservation->card_type ?? '' }}</span>
+
+        <hr class="solid">
+
+        <div style="margin: 2mm 0 3mm;">
+            <div class="pay-title">Reservation guaranteed by the following credit card:</div>
+            <div class="drow">
+                <span class="lbl">Card Number</span>
+                <span class="colon">:</span>
+                <span class="val">
+                    @if($reservation->card_number)
+                        {{ str_repeat('*', max(0, strlen($reservation->card_number) - 4)) . substr($reservation->card_number, -4) }}
+                    @else
+                        &nbsp;
+                    @endif
+                </span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Card holder name</span>
+                <span class="colon">:</span>
+                <span class="val">{{ $reservation->card_holder_name ?? '&nbsp;' }}</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Card Type</span>
+                <span class="colon">:</span>
+                <span class="val">{{ $reservation->card_type ?? '&nbsp;' }}</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Or by Bank Transfer to</span>
+                <span class="colon">:</span>
+                <span class="val" style="font-weight:600;">1320089175400 — a/n PPKD Jakarta Pusat</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Expired date/month/year</span>
+                <span class="colon">:</span>
+                <span class="val">{{ $reservation->card_expired ?? '&nbsp;' }}</span>
+            </div>
+            <div class="drow">
+                <span class="lbl">Card holder signature</span>
+                <span class="colon">:</span>
+                <span class="val">&nbsp;</span>
+            </div>
         </div>
-        <div class="drow">
-            <span class="lbl">Or by Bank Transfer to</span>
-            <span class="colon">:</span>
-            {{-- Nomor rekening tetap perusahaan PPKD Hotel (tidak bisa diubah) --}}
-            <span class="val" style="font-weight:600;">1320089175400 — a/n PPKD Jakarta Pusat</span>
-        </div>
-        <div class="drow">
-            <span class="lbl">Expired date/month/year</span>
-            <span class="colon">:</span>
-            <span class="val">{{ $reservation->card_expired ?? '' }}</span>
-        </div>
-        <div class="drow">
-            <span class="lbl">Card holder signature</span>
-            <span class="colon">:</span>
-            <span class="val">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </div>
-    </div>
+
+    @endif
 
     <hr class="solid">
 
@@ -401,7 +450,7 @@
     {{-- ====== SIGNATURE LINE + NAMA ====== --}}
     <div style="margin-top: 14mm; display: flex; justify-content: flex-end;">
         <div style="width: 45%; text-align: center;">
-            <div style="border-top: 1px solid #000; padding-top: 4px; font-size: 11.5px; font-family: 'Times New Roman', serif;">
+            <div style="border-top: 1px solid #000; padding-top: 4px; font-size: 13px; font-family: 'Times New Roman', serif;">
                 {{ $reservation->full_name }}
             </div>
         </div>

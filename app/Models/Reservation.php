@@ -15,7 +15,7 @@ class Reservation extends Model
         'nationality', 'passport_no', 'birth_date', 'address', 'phone',
         'mobile_phone', 'email', 'member_no', 'company_agent', 'book_by',
         'agent_phone', 'agent_fax', 'agent_email', 'arrival_date', 'arrival_time',
-        'departure_date', 'total_nights', 'person_pax', 'room_rate_net',
+        'departure_date', 'departure_time', 'total_nights', 'person_pax', 'room_rate_net',
         'room_unit_type', 'payment_method', 'card_number', 'card_holder_name',
         'card_type', 'card_expired', 'mandiri_account', 'mandiri_name_account',
         'safety_deposit_box_no', 'issued_by', 'issued_date', 'status', 'notes',

@@ -264,7 +264,7 @@
             <div class="card-body" style="padding:24px;">
                 <table style="width:100%; border-collapse:collapse;">
                     <tr>
-                        <td style="padding:8px 0; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-soft); width:40%;">Arrival</td>
+                        <td style="padding:8px 0; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-soft); width:40%;">Arrivals</td>
                         <td style="padding:8px 0; font-size:13px; color:var(--text-dark);">{{ \Carbon\Carbon::parse($reservation->arrival_date)->format('d M Y') }} {{ $reservation->arrival_time ? '— '.$reservation->arrival_time : '' }}</td>
                     </tr>
                     <tr>

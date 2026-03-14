@@ -41,6 +41,7 @@ class ReservationController extends Controller
             'member_no'       => 'nullable|string|max:100',
             'arrival_date'    => 'required|date',
             'arrival_time'    => 'nullable|string',
+            'departure_time'  => 'nullable|string',
             'departure_date'  => 'required|date|after:arrival_date',
             'person_pax'      => 'nullable|integer|min:1',
             'room_rate_net'   => 'nullable|numeric|min:0',
@@ -82,14 +83,53 @@ class ReservationController extends Controller
 
     public function update(Request $request, Reservation $reservation)
     {
-        $validated = $request->validate([
-            'first_name'     => 'required|string|max:255',
-            'last_name'      => 'nullable|string|max:255',
-            'arrival_date'   => 'required|date',
-            'departure_date' => 'required|date|after:arrival_date',
+        $request->validate([
+            'first_name'           => 'required|string|max:255',
+            'last_name'            => 'nullable|string|max:255',
+            'room_number'          => 'nullable|string|max:50',
+            'room_type'            => 'nullable|string|max:100',
+            'room_rate_net'        => 'nullable|numeric|min:0',
+            'arrival_date'         => 'required|date',
+            'arrival_time'         => 'nullable|string',
+            'departure_date'       => 'required|date|after:arrival_date',
+            'departure_time'       => 'nullable|string',
+            'email'                => 'nullable|email|max:255',
+            'phone'                => 'nullable|string|max:30',
+            'company'              => 'nullable|string|max:255',
+            'payment_method'       => 'nullable|in:credit_card,bank_transfer',
+            'mandiri_account'      => 'nullable|string|max:100',
+            'mandiri_name_account' => 'nullable|string|max:255',
+            'card_number'          => 'nullable|string|max:50',
+            'card_holder_name'     => 'nullable|string|max:255',
+            'card_type'            => 'nullable|string|max:50',
+            'card_expired'         => 'nullable|string|max:20',
+            'status'               => 'nullable|in:pending,confirmed,checked_in,checked_out,cancelled',
+            'notes'                => 'nullable|string',
         ]);
 
-        $reservation->update($request->all());
+        $data = $request->all();
+
+        // Hitung ulang total malam
+        if (!empty($data['arrival_date']) && !empty($data['departure_date'])) {
+            $data['total_nights'] = \Carbon\Carbon::parse($data['arrival_date'])
+                ->diffInDays(\Carbon\Carbon::parse($data['departure_date']));
+        }
+
+        // Hapus data metode pembayaran lama yang tidak dipakai lagi
+        if ($request->payment_method === 'bank_transfer') {
+            // Ganti ke bank transfer — hapus semua data kartu kredit
+            $data['card_number']      = null;
+            $data['card_holder_name'] = null;
+            $data['card_type']        = null;
+            $data['card_expired']     = null;
+        } elseif ($request->payment_method === 'credit_card') {
+            // Ganti ke kartu kredit — hapus semua data bank transfer
+            $data['mandiri_account']      = null;
+            $data['mandiri_name_account'] = null;
+        }
+
+        $reservation->update($data);
+
         return redirect()->route('reservations.show', $reservation)
             ->with('success', 'Reservasi berhasil diperbarui.');
     }
