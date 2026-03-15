@@ -18,7 +18,7 @@
             <div style="display:flex; align-items:center; gap:12px;">
                 <img src="{{ asset('images/logo.jpeg') }}"
                      alt="PPKD Jakarta Pusat"
-                     style="width:48px; height:48px; object-fit:contain; flex-shrink:0; border-radius:4px;"
+                     style="width:48px; height:48px; object-fit:contain; flex-shrink:0; border-radius:4px;border-radius:50%; mix-blend-mode:screen; filter:brightness(1.2) contrast(1.1);"
                      onerror="this.style.display='none'">
                 <div style="display:flex; flex-direction:column; line-height:1.3;">
                     <span class="sidebar-brand">PPKD Hotel</span>
