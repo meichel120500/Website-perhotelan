@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        // TAMBAHKAN baris ini di bawahnya untuk memanggil UserSeeder
+        $this->call([
+            UserSeeder::class,
+        ]);
     }
 }
